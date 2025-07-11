@@ -1,0 +1,161 @@
+<html>
+<head>
+<title>program for CMS</title>
+<style>
+table{border:1px solid black;
+border-collapse:collapse;
+margin:auto;
+}
+td,th{border:1px solid black;
+padding:5px;
+text-align:center;
+}
+.c{width:20%;}
+div{
+box-shadow:0 0 10px blue;
+border-radius:1px;
+padding:5px;
+text-align:center;
+width:80%;
+margin:auto;
+}
+button{
+background-color:pink;}
+input,select{border:1px solid black;}
+.highlight{background-color:lime;}
+
+.cmsbox{margin:auto;}
+</style>
+</head>
+<body>
+    <div class="cmsbox">
+ <h1>College Admission System</h1>
+<div>
+<h2>🎓 Course Seat Wise Status</h2>
+<table>
+<thead>
+<tr><th>Course</th><th>Fees</th><th>Admission</th><th>Left Seat</th><th>Total Seat</th></tr>
+<tbody id="tb"></tbody>
+</table>
+</div><br>
+
+<div>
+<h2>👨‍🎓 Addmission Form</h2>
+<form>
+<input type="text" placeholder="Name" id="name"><br><br>
+<input type="text" placeholder="Father Name" id="fname"><br><br>
+<input type="number" placeholder="Fees" id="fees"><br><br>
+<select id="course" class="c">
+<option value="">Select</option>
+<option value="BCA">BCA</option>
+<option value="MCA">MCA</option>
+<option value="PGDCA">PGDCA</option>
+<option value="OLEVEL">OLEVEL</option>
+</select><br><br>
+<button type="button" onclick="addstudent();">Add<br> Addmission</button>
+</form>
+</div><br>
+
+<div>
+<h2>📝 Student Record Table</h2>
+<input type="text" placeholder="Student Name" id="search">&emsp;
+<button onclick="searchstudent();">Search</button><br><br>
+<table>
+<thead><th>Name</th><th>Father name</th><th>Fees</th><th>Course</th><th>Delete</th></thead>
+<tbody id="tc"></tbody>
+</table>
+</div>
+
+</div>
+</body>
+<script>
+var recorddata=[]
+var seatdata=[];
+var courses=["BCA","MCA","PGDCA","OLEVEL"]
+var feeses=[24000,70000,12000,14000];
+var i;
+for(i=0;i<courses.length;i++)
+{seatdata[i]={ course:courses[i],fees:feeses[i],addmission:0,left:2,total:2};}
+
+function showseat(){
+document.getElementById("tb").innerHTML="";
+for(i=0;i<seatdata.length;i++)
+{
+document.getElementById("tb").innerHTML+=`
+<tr><td>${courses[i]}</td>
+ <td>${feeses[i]}</td>
+ <td>${seatdata[i].addmission}</td>
+ <td>${seatdata[i].left}</td>
+ <td>${seatdata[i].total}</td>
+ </tr>`;
+ }
+ }
+function addstudent(){
+var n,fn,c,f;
+var tseat,rowseat;
+n=document.getElementById("name").value;
+fn=document.getElementById("fname").value;
+f=parseInt(document.getElementById("fees").value);
+c=document.getElementById("course").value;
+if(!n || !fn || !f || !c)
+{alert("please fill all field");return;}
+var position=courses.indexOf(c);
+if(seatdata[position].left<=0)
+{alert("not space in this course");
+tseat=document.getElementById("tb");
+rowseat=tseat.getElementsByTagName("tr");
+for(i=0;i<seatdata.length;i++)
+{if(seatdata[i].course==c && c!="")
+{rowseat[i].className="highlight";}
+else{rowseat[i].className="";}
+}
+return;
+}
+seatdata[position].addmission++;
+seatdata[position].left=seatdata[position].total-seatdata[position].addmission;
+recorddata.push({name:n,fname:fn,fees:f,course:c});
+document.getElementById("name").value="";
+document.getElementById("fname").value="";
+document.getElementById("fees").value="";
+document.getElementById("course").value="";
+showseat();
+showrecord();
+}
+function showrecord(){
+document.getElementById("tc").innerHTML="";
+for(i=0;i<recorddata.length;i++)
+{document.getElementById("tc").innerHTML+=`
+<tr><td>${recorddata[i].name}</td>
+<td>${recorddata[i].fname}</td>
+<td>${recorddata[i].fees}</td>
+<td>${recorddata[i].course}</td>
+<td><button onclick="deleterecord(${i})">Del</button</button>
+</tr>`;
+}
+}
+function deleterecord(index){
+if(confirm("which you want to delete")){
+let courseName = recorddata[index].course; 
+let position = courses.indexOf(courseName);
+seatdata[position].addmission--;
+seatdata[position].left = seatdata[position].total - seatdata[position].addmission;
+recorddata.splice(index,1);
+showrecord();
+showseat();
+}
+}
+function searchstudent(){
+var s,tarecord,rowrecord;
+s=document.getElementById("search").value;
+trecord=document.getElementById("tc");
+rowrecord=trecord.getElementsByTagName("tr");
+for(i=0;i<recorddata.length;i++)
+{if(recorddata[i].name==s && s!="")
+{rowrecord[i].className="highlight"}
+else{rowrecord[i].className=""}
+}
+document.getElementById("search").value="";
+}
+showseat();
+</script>
+</html>
