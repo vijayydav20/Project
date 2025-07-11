@@ -1,0 +1,114 @@
+<html>
+<head>
+  <title>Calendar</title>
+  <style>
+    table {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    }
+    td, th {
+    border:1px solid black;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    }
+    h3 {
+    margin: 10px 0 5px;
+    }
+    button{
+    height:30px;
+    width:70px;
+    border-radius:3px;
+    background-color:pink;
+    box-shadow:0 0 5px;
+    }
+    input{
+    width:30%;
+    height:50px;
+    border:1px solid red;
+    }
+   
+  </style>
+</head>
+<body>
+ <center> <div id="yearbox">
+ <h1>CALENDER</h1>
+    <h2>Enter year</h2><input type="number" id="year"><br><br>
+    <button onclick="cal();">CLICK</button><hr>
+  </div></center>
+  <center><div id="calbox"></div></center>
+
+  <script>
+    function cal() {
+      
+      let y = parseInt(document.getElementById("year").value);
+      if(!y || y<=0)
+  {alert(" fill right year");return;}
+      document.getElementById("calbox").innerHTML="";
+      let td = 0, d, rem, h, b, m, i;
+var month=["January","February","March","April","May","June","July","August","September","October","November","December"];
+      // Total days before entered year
+      for (i = 1; i < y; i++) {
+        if ((i % 4 == 0 && i % 100 != 0) || (i % 400 == 0)) td += 366;
+        else td += 365;
+      }
+
+      for (m = 1; m <= 12; m++) {
+        // Add days of previous months in same year
+        if (m != 1) {
+          for (i = m - 1; i <= m - 1; i++) {
+            if (i == 2) {
+              if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) td += 29;
+              else td += 28;
+            } else if (i == 4 || i == 6 || i == 9 || i == 11) {
+              td += 30;
+            } else {
+              td += 31;
+            }
+          }
+        }
+
+        if (m == 1) td += 1; // Special adjustment like in C
+
+        rem = td % 7; // Calculate weekday
+
+        // Days in current month
+        if (m == 2) {
+          if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) d = 29;
+          else d = 28;
+        } else if (m == 4 || m == 6 || m == 9 || m == 11) d = 30;
+        else d = 31;
+
+        // Print month
+        let out = `<h3>Month: ${month[m-1]} Year: ${y}</h3>`;
+        out += "<table><tr><th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr><tr>";
+
+        for (i = 1; i <= rem; i++) {
+          out += "<td></td>";
+        }
+
+        h = 7 - rem;
+        for (i = 1; i <= h; i++) {
+          out += `<td>${i}</td>`;
+        }
+
+        out += "</tr><tr>";
+        b = 1;
+        for (i = h + 1; i <= d; i++) {
+          if (b == 8) {
+            out += "</tr><tr>";
+            b = 1;
+          }
+          out += `<td>${i}</td>`;
+          b++;
+        }
+
+        out += "</tr></table>";
+        document.getElementById("calbox").innerHTML += out;
+      }
+ document.getElementById("year").value="";   
+    }
+  </script>
+</body>
+</html>
