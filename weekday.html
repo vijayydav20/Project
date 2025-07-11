@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page title</title>
+    <style>
+        .contain{
+          background-color:aqua;
+          border-radius:20px;
+          padding:15px;
+          box-shadow:0 0 20px;
+        }
+        .button{
+        border-radius:10px;
+        width:60px;
+        height:40px;
+        font-weight:bold;
+        background-color:pink;
+        }
+        body{
+        font-size:15px;
+        }
+    </style>
+</head>
+<body>
+   <div class="contain">
+ <center><marquee behavior="alternate"><h1>CHECK WEEKDAY</h1></marquee></center><hr><br><br>
+<b>Enter year </b>&nbsp&nbsp&nbsp&nbsp<input type="number" id="year"><br><br>
+<b>Enter month</b>  <input type="number" id="month"><br><br>
+<b>Enter date</b> &nbsp&nbsp&nbsp&nbsp<input type="number" id="date"><br>
+
+<h1 id="result"></h1><br>
+<center><button onclick="check();" class="button">CHECK</button>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<button onclick="reset();" class="button">RESET</button></center>
+</div>
+</body>
+<script>
+var y=NaN,m=NaN,d=NaN;
+ function cal(){
+   var td=0,rem,i;
+ for(i=1;i<y;i++)
+{if(i%4==0 && i%100!=0 || i%400==0)
+{td=td+366;}
+else{td=td+365;}
+}
+for(i=1;i<m;i++)
+{if(i==2)
+{if(y%4==0 && y%100!=0 || y%400==0 )
+{td=td+29;}
+else{td=td+28;}
+}
+else{if(i==4|| i==6||i==9||i==11)
+         {td=td+30;}
+         else{td=td+31;}
+      }
+}
+td=td+d;
+rem=td%7;
+switch(rem){
+case 0:{document.getElementById("result").innerHTML="SUNDAY"; break;}
+case 1:{document.getElementById("result").innerHTML="MONDAY"; break;}
+case 2:{document.getElementById("result").innerHTML="TUESDAY"; break;}
+case 3:{document.getElementById("result").innerHTML="WEDNESDAY"; break;}
+case 4:{document.getElementById("result").innerHTML="THURSDAY"; break;}
+case 5:{document.getElementById("result").innerHTML="FRIDAY"; break;}
+case 6:{document.getElementById("result").innerHTML="SATURDAY"; break;}
+}
+}
+function check(){
+y=parseInt(document.getElementById("year").value);
+m=parseInt(document.getElementById("month").value);
+d=parseInt(document.getElementById("date").value);
+if(isNaN(y) || isNaN(m) || isNaN(d))
+{alert("fill date, month and year");}
+else{
+if(y>0){
+if(m>0 && m<=12){
+if(m==2)
+{if(y%4==0 && y%100!=0 || y%400==0)
+{if(d>0 && d<=29)
+{cal();}
+ else{alert("fill right day ");
+return;}
+}
+else{if(d>0 && d<=28)
+{cal();}
+else{alert("fill right day");
+return;}
+}
+}
+if(m==4|| m==6||m==9||m==11)
+{if(d>0 && d<=30)
+{cal();}
+else{alert("fill right day");
+return;
+}
+}
+else{if(d>0 && d<=31)
+{cal();}
+else{alert("fill right day");
+return;}
+}
+}
+else{alert("fill right month");
+return;}
+}
+else{alert("fill right year");
+return;}
+}
+}
+function reset(){
+document.getElementById("year").value="";
+document.getElementById("month").value="";
+document.getElementById("date").value="";
+document.getElementById("result").innerHTML="";
+}
+</script>
+</html>
