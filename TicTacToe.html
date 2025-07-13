@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>
+pogram for Tic Tac Toe
+</title>
+<style>
+body{font-size:50px;}
+#board{
+display:grid;
+grid-template-columns:repeat(3,200px);
+gap:5px;
+width:max-content;
+margin: 30px auto;
+}
+.cell{
+height:200px;
+width:200px;
+border:2px solid;
+text-align:center;
+line-height:200px;
+font-size:120px;
+cursor:pointer;
+}
+button{height:50px;
+width:200px;
+font-size:30px;
+background-color:pink;
+}
+div{text-align:center;
+}
+#restart{margin:auto;
+}
+input{height:50px;
+width:310;
+border:1px solid black;
+}
+input::placeholder{font-size:25px;
+text-align:center;}
+</style>
+</head>
+<body>
+<div id="playerbox">
+<h2>Tic Tac Toe Game</h2>
+<input type="text" placeholder="First Player Name (O)" id="p1"><br><br>
+<input type="text"placeholder="Second Player Name (X)" id="p2"><br><br>
+<button onclick="startgame();">Start Game</button>
+</div>
+<div id="board" style="display:none;">
+<div class="cell" onclick="game(0,this);"></div>
+<div class="cell" onclick="game(1,this);"></div>
+<div class="cell" onclick="game(2,this);"></div>
+<div class="cell" onclick="game(3,this);"></div>
+<div class="cell" onclick="game(4,this);"></div>
+<div class="cell" onclick="game(5,this);"></div>
+<div class="cell" onclick="game(6,this);"></div>
+<div class="cell" onclick="game(7,this);"></div>
+<div class="cell" onclick="game(8,this);"></div>
+</div>
+<button style="display:none" id="restart" onclick="restart();">RESTART</button>
+<h2 id="pturn"></h2>
+</body>
+<script>
+var g=["","","","","","","","",""];
+var turn='O';
+var p1,p2;
+gameover=false;
+function game(index,tag){
+if(tag.innerHTML=="" && gameover==false)
+{tag.innerHTML=turn;
+g[index]=turn;
+if(turn=='O')
+{turn='X';
+document.getElementById("pturn").innerHTML=`${p2}(${turn}) Turn`;}
+else{turn='O';
+document.getElementById("pturn").innerHTML=`${p1}(${turn}) Turn`;}
+if(g[0]=='O' && g[1]=='O' && g[2]=='O'||
+g[3]=='O' && g[4]=='O' && g[5]=='O'||
+g[6]=='O' && g[7]=='O' && g[8]=='O'||
+g[0]=='O' && g[3]=='O' && g[6]=='O'||
+g[1]=='O' && g[4]=='O' && g[7]=='O'||
+g[2]=='O' && g[5]=='O' && g[8]=='O'||
+g[0]=='O' && g[4]=='O' && g[8]=='O'||
+g[2]=='O' && g[4]=='O' && g[6]=='O')
+{document.getElementById("pturn").innerHTML=`
+${p1} is winner 🏆`;
+gameover=true;}
+if(g[0]=='X' && g[1]=='X' && g[2]=='X'||
+g[3]=='X' && g[4]=='X' && g[5]=='X'||
+g[6]=='X' && g[7]=='X' && g[8]=='X'||
+g[0]=='X' && g[3]=='X' && g[6]=='X'||
+g[1]=='X' && g[4]=='X' && g[7]=='X'||
+g[2]=='X' && g[5]=='X' && g[8]=='X'||
+g[0]=='X' && g[4]=='X' && g[8]=='X'||
+g[2]=='X' && g[4]=='X' && g[6]=='X')
+{document.getElementById("pturn").innerHTML=`
+${p2} is winner 🏆`;
+gameover=true;}
+}
+}
+function startgame(){
+p1=document.getElementById("p1").value;
+p2=document.getElementById("p2").value;
+if(!p1 || !p2)
+{alert("please fill player name !");
+return;}
+document.getElementById("playerbox").style.display="none";
+document.getElementById("board").style.display="grid";
+document.getElementById("pturn").innerHTML=`${p1}(O) Turn`;
+document.getElementById("restart").style.display="block";
+}
+function restart(){
+var i;
+gameover=false;
+var boarddiv=document.getElementById("board");
+var innerdiv=boarddiv.getElementsByTagName("div");
+for(i=0;i<=8;i++){
+innerdiv[i].innerHTML="";
+}
+g=["","","","","","","","",""];
+turn='O';
+document.getElementById("pturn").innerHTML=`${p1}(${turn}) Turn`;
+}
+</script>
+</html>
